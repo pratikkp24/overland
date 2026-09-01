@@ -8,6 +8,17 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: Number(process.env.PORT) || 8080,
+    /* The /api/* routes are Vercel serverless functions and do not exist under
+       `vite dev`, so the diesel feed 404s locally and anything that depends on it
+       is untestable. Proxy to the deployed functions instead of stubbing, so what
+       renders in development is the same payload production returns. */
+    proxy: {
+      '/api': {
+        target: 'https://overland-ochre.vercel.app',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
   build: {
     sourcemap: true,

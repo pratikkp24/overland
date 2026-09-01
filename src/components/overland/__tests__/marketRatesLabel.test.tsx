@@ -26,7 +26,11 @@ describe('1.6 Market Rates Label Guard', () => {
     signOut: vi.fn(),
   };
 
-  it('HeroDirect labels national average rate as Indicative, never live', () => {
+  /* The hero's rate figures moved from a static panel into HeroDeck's card
+     stack. The claim being guarded is unchanged and is the point of the test:
+     a rate derived from market.ts must carry a word that says so, and must
+     never be badged live. */
+  it('the hero labels every modelled rate, and never calls one live', () => {
     vi.spyOn(AuthContextModule, 'useAuth').mockReturnValue(mockAuth);
 
     render(
@@ -35,9 +39,19 @@ describe('1.6 Market Rates Label Guard', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/Indicative/i)).toBeInTheDocument();
-    expect(screen.getByText(/Modelled from miles and equipment, not live transactions/i)).toBeInTheDocument();
+    // The front card of the deck carries the honesty label.
+    expect(screen.getAllByText(/Modelled/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^live$/i)).toBeNull();
+    expect(screen.queryByText(/live rate/i)).toBeNull();
+  });
+
+  it('the diesel card names its source, because it is the one measured number', () => {
+    vi.spyOn(AuthContextModule, 'useAuth').mockReturnValue(mockAuth);
+    const src = fs.readFileSync(path.resolve(import.meta.dirname, '../HeroDeck.tsx'), 'utf8');
+    // Measured data must be attributed; modelled data must not borrow that word.
+    expect(src).toMatch(/EIA/);
+    expect(src).toMatch(/Measured/);
+    expect(src).toMatch(/Modelled/);
   });
 
   it('BookCards does not badge modelled rates as live', () => {
@@ -54,11 +68,9 @@ describe('1.6 Market Rates Label Guard', () => {
   });
 
   it('grep guard: HeroDirect.tsx and BookCards.tsx source files do not label modelled rates as live', () => {
-    const heroPath = path.resolve(import.meta.dirname, '../HeroDirect.tsx');
-    const bookPath = path.resolve(import.meta.dirname, '../BookCards.tsx');
-
-    const heroSource = fs.readFileSync(heroPath, 'utf8');
-    const bookSource = fs.readFileSync(bookPath, 'utf8');
+    const heroSource = fs.readFileSync(path.resolve(import.meta.dirname, '../HeroDirect.tsx'), 'utf8')
+      + fs.readFileSync(path.resolve(import.meta.dirname, '../HeroDeck.tsx'), 'utf8');
+    const bookSource = fs.readFileSync(path.resolve(import.meta.dirname, '../BookCards.tsx'), 'utf8');
 
     // Ensure neither file badges rate figures with "live" text
     expect(heroSource).not.toMatch(/Live rate/i);
