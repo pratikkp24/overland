@@ -19,7 +19,7 @@ export default function HeroDirect() {
   const { user, openAuth } = useAuth();
   const nav = useNavigate();
   return (
-    <section className="bg-[#FAF9F7] pt-14 pb-16 md:pt-20 md:pb-20">
+    <section className="bg-[#FAF9F7] pt-10 pb-14 md:pt-12 md:pb-16">
       <div className="mx-auto max-w-[1126px] px-6">
         {/* On a phone the app frame is the hook and belongs directly under the
             headline, not below three paragraphs — so the column is split in two
@@ -47,16 +47,14 @@ export default function HeroDirect() {
               <div>
                 <dt className="aon-eyebrow">What we do</dt>
                 <dd className="aon-body mt-1.5 text-[16px] leading-[1.55]">
-                  You post a load or a truck. Anyone can bid, and every bid is
-                  public — the amount and who made it.
+                  Post a load or a truck. Every bid is public.
                 </dd>
               </div>
               <div>
                 <dt className="aon-eyebrow">Who it is for</dt>
                 <dd className="aon-body mt-1.5 text-[16px] leading-[1.55]">
-                  Owner-operators and small fleets who want the next load without
-                  guessing the rate. Shippers who would rather not pay a spread
-                  they cannot see.
+                  Owner-operators, small fleets, and shippers who are tired of
+                  guessing the rate.
                 </dd>
               </div>
             </dl>
@@ -73,7 +71,7 @@ export default function HeroDirect() {
             </div>
 
             <p className="aon-eyebrow mt-7" style={{ lineHeight: 1.9 }}>
-              Free · No platform fees · We never take a cut of your rate
+              Free · No fees · No cut of your rate
             </p>
           </div>
 

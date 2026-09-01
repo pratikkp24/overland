@@ -801,3 +801,14 @@ html, body {
 @media (pointer: coarse) {
   .aon-cta { min-height: 44px; padding-top: 11px; padding-bottom: 11px; }
 }
+
+/* The featured card in the hero phone. A short rise-and-fade as each card
+   replaces the last — enough to read as a live screen, not enough to distract
+   from the copy beside it. */
+@keyframes aon-card-in {
+  from { opacity: 0; transform: translateY(8px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  @keyframes aon-card-in { from { opacity: 1; } to { opacity: 1; } }
+}
