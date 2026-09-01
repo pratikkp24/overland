@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/auth/AuthContext';
 import HeroDeck from './HeroDeck';
+import Logo from './Logo';
 
 /**
  * Straight-to-business hero.
@@ -28,7 +29,10 @@ export default function HeroDirect() {
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
 
           <div className="order-1 lg:col-start-1 lg:row-start-1 lg:self-end">
-            <span className="aon-eyebrow">Open freight board</span>
+            {/* The mark alone, and larger. The full lockup sits in the nav about
+                90px above this, so repeating the wordmark here read as a mistake
+                rather than as branding. */}
+            <Logo size={26} variant="mark" />
 
             <h1 className="aon-display mt-6 max-w-[14ch] text-[clamp(38px,6vw,68px)]">
               Freight and trucks, <span style={{ color: ACCENT }}>priced in the open.</span>

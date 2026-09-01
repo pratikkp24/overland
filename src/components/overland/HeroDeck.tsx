@@ -1,5 +1,6 @@
 import React from 'react';
 import { buildLanes, rpmFmt, type Lane } from '@/lib/market';
+import Logo from './Logo';
 
 /**
  * The product, shown rather than described.
@@ -239,16 +240,7 @@ export default function HeroDeck() {
 
           <div className="flex items-center justify-between px-4 pb-2 pt-2"
                style={{ borderBottom: `1px solid ${HAIR}` }}>
-            <span className="flex items-center gap-1.5">
-              <svg viewBox="0 0 128 40" width="22" height="8" aria-hidden style={{ overflow: 'visible' }}>
-                <path d="M2 26 C 22 26, 26 12, 44 12 S 70 30, 90 30 S 116 14, 126 14"
-                      fill="none" stroke={INK} strokeWidth="6" strokeLinecap="round" />
-              </svg>
-              <span style={{ fontFamily: 'Archivo, sans-serif', fontWeight: 500,
-                             letterSpacing: '.18em', fontSize: 8.5, color: INK }}>
-                OVERLAND
-              </span>
-            </span>
+            <Logo size={9} />
             <span className="flex h-[19px] w-[19px] items-center justify-center rounded-full"
                   style={{ background: INK, color: PAPER, fontFamily: 'Poppins, sans-serif',
                            fontWeight: 600, fontSize: 8 }}>
