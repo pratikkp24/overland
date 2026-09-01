@@ -73,7 +73,7 @@ export default function HeroDirect() {
             </div>
 
             <p className="aon-eyebrow mt-7" style={{ lineHeight: 1.9 }}>
-              Free · No platform fees · We never take a commission
+              Free · No platform fees · We never take a cut of your rate
             </p>
           </div>
 
