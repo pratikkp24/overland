@@ -140,7 +140,7 @@ export default function BoardPage() {
         type="button"
         onClick={() => setSorting(k)}
         className="aon-eyebrow inline-flex items-center gap-1"
-        style={{ color: sort === k ? ACCENT : 'rgba(17,17,17,.42)' }}
+        style={{ color: sort === k ? ACCENT : 'rgba(17,17,17,.62)' }}
       >
         {children}
         <span aria-hidden style={{ opacity: sort === k ? 1 : 0 }}>{desc ? '▾' : '▴'}</span>
@@ -174,23 +174,27 @@ export default function BoardPage() {
       </header>
 
       <main className="mx-auto max-w-[1240px] px-6 py-8">
+        {/* The board's visible headings start at h2 by design. A document with no
+            h1 is a real defect for a screen reader and for search, so name the
+            page here rather than restyling the header. */}
+        <h1 className="sr-only">Overland rate board — open freight and truck listings with every bid public</h1>
         {/* ---- index board ------------------------------------------------ */}
         <section className="ov-board p-6 text-white sm:p-8">
           <div className="flex flex-wrap items-end justify-between gap-8">
             <div>
-              <p className="aon-eyebrow" style={{ color: 'rgba(255,255,255,.45)' }}>
+              <p className="aon-eyebrow" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 Overland national lane index · USD per mile
               </p>
               <div className="mt-3 flex items-baseline gap-4">
                 <span className="aon-num text-[clamp(38px,6vw,58px)] leading-none">{rpmFmt(idx.now)}</span>
                 <span className="aon-num text-[16px]" style={{ color: idxDelta >= 0 ? '#4ADE80' : '#F87171' }}>
                   {idxDelta >= 0 ? '▲' : '▼'} {rpmFmt(Math.abs(idxDelta))}
-                  <span className="ml-2 opacity-70">
+                  <span className="ml-2">
                     ({((idxDelta / idx.avg) * 100).toFixed(2)}%)
                   </span>
                 </span>
               </div>
-              <p className="aon-num mt-2 text-[12px]" style={{ color: 'rgba(255,255,255,.4)' }}>
+              <p className="aon-num mt-2 text-[12px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 30-session average {rpmFmt(idx.avg)} · miles-weighted across {lanes.length} lanes
               </p>
             </div>
@@ -206,7 +210,7 @@ export default function BoardPage() {
                 ['Lanes priced', String(lanes.length)],
               ].map(([k, v]) => (
                 <div key={k}>
-                  <dt className="aon-eyebrow" style={{ color: 'rgba(255,255,255,.45)' }}>{k}</dt>
+                  <dt className="aon-eyebrow" style={{ color: 'rgba(255,255,255,0.6)' }}>{k}</dt>
                   <dd className="aon-num mt-2 text-[22px]">{v}</dd>
                 </div>
               ))}
@@ -270,7 +274,7 @@ export default function BoardPage() {
             <button key={e} type="button" onClick={() => setEquip(e)}
                     className="aon-eyebrow rounded-full px-4 py-2 transition-colors"
                     style={{ background: equip === e ? INK : 'transparent',
-                             color: equip === e ? '#FBFAF8' : 'rgba(17,17,17,.55)',
+                             color: equip === e ? '#FBFAF8' : 'rgba(17,17,17,.62)',
                              border: `1px solid ${equip === e ? INK : HAIR}` }}>
               {e}
             </button>
@@ -279,7 +283,7 @@ export default function BoardPage() {
           <button type="button" onClick={() => setFiltersOpen((v) => !v)}
                   aria-expanded={filtersOpen}
                   className="aon-eyebrow rounded-full px-4 py-2 transition-colors"
-                  style={{ color: activeCount > 0 ? ACCENT : 'rgba(17,17,17,.55)',
+                  style={{ color: activeCount > 0 ? ACCENT : 'rgba(17,17,17,.62)',
                            border: `1px solid ${activeCount > 0 ? ACCENT : HAIR}` }}>
             Filters{activeCount > 0 ? ` · ${activeCount}` : ''} {filtersOpen ? '\u2191' : '\u2193'}
           </button>
@@ -322,7 +326,7 @@ export default function BoardPage() {
         )}
 
         {/* ---- the board --------------------------------------------------- */}
-        <div className="mt-4 overflow-x-auto">
+        <div className="mt-4 overflow-x-auto" tabIndex={0} role="region" aria-label="Lane index, scrolls horizontally">
           <table className="w-full min-w-[940px] border-collapse">
             <thead>
               <tr>

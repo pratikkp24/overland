@@ -105,12 +105,12 @@ export default function InstallPrompt() {
           </p>
 
           {ios ? (
-            <p className="mt-1 text-[12.5px] leading-[1.55]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,.6)' }}>
+            <p className="mt-1 text-[12.5px] leading-[1.55]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,0.62)' }}>
               Tap <span style={{ color: ACCENT }}>Share</span>, then{' '}
               <span style={{ color: ACCENT }}>Add to Home Screen</span>.
             </p>
           ) : (
-            <p className="mt-1 text-[12.5px] leading-[1.55]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,.6)' }}>
+            <p className="mt-1 text-[12.5px] leading-[1.55]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,0.62)' }}>
               Add Overland to your home screen. Opens full screen, no browser bars.
             </p>
           )}

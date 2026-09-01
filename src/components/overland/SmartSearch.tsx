@@ -91,7 +91,7 @@ export default function SmartSearch({
           onClick={() => { const next = !ai; setAi(next); if (!next) { setParsed(null); onParsed(null); setNote(null); } }}
           aria-pressed={ai}
           className="aon-eyebrow flex items-center gap-2 rounded-full px-4 py-2.5 transition-colors"
-          style={{ background: ai ? INK : 'transparent', color: ai ? '#FAF9F7' : 'rgba(17,17,17,.55)',
+          style={{ background: ai ? INK : 'transparent', color: ai ? '#FAF9F7' : 'rgba(17,17,17,.62)',
                    border: `1px solid ${ai ? INK : HAIR}` }}
         >
           <span aria-hidden style={{ opacity: ai ? 1 : 0.45 }}>✦</span>

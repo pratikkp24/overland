@@ -58,7 +58,7 @@ export default function BookCards() {
                 className="aon-eyebrow rounded-full px-4 py-2 transition-colors"
                 style={{
                   background: kind === k ? INK : 'transparent',
-                  color: kind === k ? '#FAF9F7' : 'rgba(17,17,17,.55)',
+                  color: kind === k ? '#FAF9F7' : 'rgba(17,17,17,.62)',
                   border: `1px solid ${kind === k ? INK : HAIR}`,
                 }}
               >

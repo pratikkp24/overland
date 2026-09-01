@@ -316,13 +316,13 @@ export function ProcessSection() {
           {STEPS.map(([title, body], i) => (
             <div key={title}>
               <div className="mb-6 h-px w-full bg-[rgba(250,249,247,.18)]" />
-              <span className="aon-eyebrow" style={{ color: 'rgba(250,249,247,.45)' }}>
+              <span className="aon-eyebrow" style={{ color: 'rgba(250,249,247,0.72)' }}>
                 {String(i + 1).padStart(2, '0')}
               </span>
               <h3 className="aon-display aon-display--light mt-4 text-[26px]">{title}</h3>
               <p
                 className="mt-3 text-[14px] leading-[1.7]"
-                style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(250,249,247,.6)' }}
+                style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(250,249,247,0.72)' }}
               >
                 {body}
               </p>
@@ -390,7 +390,7 @@ export function ProductsSection() {
                 className="aon-eyebrow"
                 style={{
                   fontSize: 9,
-                  color: status === 'LIVE' ? ACCENT : 'rgba(17,17,17,.35)',
+                  color: status === 'LIVE' ? ACCENT : 'rgba(17,17,17,.62)',
                 }}
               >
                 {status}
@@ -458,7 +458,9 @@ export function LanesSection() {
           number you see is the number the market agreed on.
         </p>
 
-        <div className="mt-14 overflow-x-auto">
+        {/* tabIndex + role make the horizontal scroll reachable from the keyboard;
+            without them the table can only be panned with a pointer. */}
+        <div className="mt-14 overflow-x-auto" tabIndex={0} role="region" aria-label="Lane index, scrolls horizontally">
           <table className="w-full min-w-[560px] border-collapse">
             <thead>
               <tr className="border-b border-[rgba(17,17,17,.12)]">
@@ -506,7 +508,7 @@ export function PlansSection() {
             >
               <span
                 className="aon-eyebrow"
-                style={{ color: plan.featured ? 'rgba(250,249,247,.5)' : undefined }}
+                style={{ color: plan.featured ? 'rgba(250,249,247,0.72)' : undefined }}
               >
                 {plan.name}
               </span>
@@ -515,12 +517,12 @@ export function PlansSection() {
               >
                 {plan.price}
                 {plan.price.startsWith('$') && plan.price !== '$0' && (
-                  <span className="aon-body text-[14px]" style={{ color: plan.featured ? 'rgba(250,249,247,.5)' : undefined }}> /mo</span>
+                  <span className="aon-body text-[14px]" style={{ color: plan.featured ? 'rgba(250,249,247,0.72)' : undefined }}> /mo</span>
                 )}
               </div>
               <p
                 className="mt-2 text-[13px] leading-[1.6]"
-                style={{ fontFamily: 'Poppins, sans-serif', color: plan.featured ? 'rgba(250,249,247,.6)' : 'rgba(17,17,17,.6)' }}
+                style={{ fontFamily: 'Poppins, sans-serif', color: plan.featured ? 'rgba(250,249,247,0.72)' : 'rgba(17,17,17,.6)' }}
               >
                 {plan.tagline}
               </p>
@@ -643,13 +645,13 @@ export function CloserSection() {
   return (
     <section id="demo" className="bg-[#111111] py-20 text-[#FAF9F7] md:py-24 lg:py-28">
       <div className="mx-auto max-w-[1126px] px-6 text-center">
-        <span className="aon-eyebrow" style={{ color: 'rgba(250,249,247,.45)' }}>Overland</span>
+        <span className="aon-eyebrow" style={{ color: 'rgba(250,249,247,0.72)' }}>Overland</span>
         <h2 className="aon-display aon-display--light mx-auto mt-6 max-w-[16ch] text-[clamp(36px,5.4vw,63px)]">
           The freight market, priced in the open.
         </h2>
         <p
           className="mx-auto mt-7 max-w-[46ch] text-[15px] leading-[1.7]"
-          style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(250,249,247,.6)' }}
+          style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(250,249,247,0.72)' }}
         >
           Post a load or a truck. Take the bid you want. Deal direct.
         </p>
@@ -667,7 +669,7 @@ export function AonFooter() {
   return (
     <footer className="border-t border-[rgba(250,249,247,.12)] bg-[#111111] py-12 text-[#FAF9F7]">
       <div className="mx-auto flex max-w-[1126px] flex-col items-start justify-between gap-6 px-6 sm:flex-row sm:items-center">
-        <span className="aon-eyebrow inline-flex items-center gap-2.5" style={{ color: 'rgba(250,249,247,.55)', letterSpacing: '.18em' }}>
+        <span className="aon-eyebrow inline-flex items-center gap-2.5" style={{ color: 'rgba(250,249,247,0.72)', letterSpacing: '.18em' }}>
           <svg viewBox="0 0 128 40" width="30" height="10" aria-hidden style={{ overflow: 'visible' }}>
             <path d="M6 27 H30 C38 27 38 13 46 13 C54 13 54 23 62 23 C70 23 70 13 78 13 C86 13 86 27 94 27 H122"
                   fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -676,15 +678,15 @@ export function AonFooter() {
         </span>
         <div className="flex flex-col gap-3 sm:items-end">
           <div className="flex gap-4">
-            <a href="/terms" className="aon-eyebrow" style={{ color: 'rgba(250,249,247,.55)' }}>Terms</a>
-            <a href="/privacy" className="aon-eyebrow" style={{ color: 'rgba(250,249,247,.55)' }}>Privacy</a>
+            <a href="/terms" className="aon-eyebrow" style={{ color: 'rgba(250,249,247,0.72)' }}>Terms</a>
+            <a href="/privacy" className="aon-eyebrow" style={{ color: 'rgba(250,249,247,0.72)' }}>Privacy</a>
           </div>
           {/* Stated in the footer of every page, not buried in the terms. */}
-          <p className="aon-eyebrow max-w-[52ch] sm:text-right" style={{ color: 'rgba(250,249,247,.3)', lineHeight: 1.9 }}>
+          <p className="aon-eyebrow max-w-[52ch] sm:text-right" style={{ color: 'rgba(250,249,247,0.72)', lineHeight: 1.9 }}>
             Overland is not a freight broker. We list, connect and step out. We take no
             cut and never handle payment. We verify emails, not businesses.
           </p>
-          <p className="aon-eyebrow" style={{ color: 'rgba(250,249,247,.3)' }}>
+          <p className="aon-eyebrow" style={{ color: 'rgba(250,249,247,0.72)' }}>
             © {new Date().getFullYear()} Overland
           </p>
         </div>

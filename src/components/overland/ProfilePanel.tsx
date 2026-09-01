@@ -121,7 +121,7 @@ export default function ProfilePanel({ id, onClose }: { id: string; onClose: () 
             {(['reviews', 'activity'] as const).map((t) => (
               <button key={t} type="button" onClick={() => setTab(t)}
                       className="aon-eyebrow rounded-full px-3 py-1.5"
-                      style={{ background: tab === t ? INK : 'transparent', color: tab === t ? '#FAF9F7' : 'rgba(17,17,17,.5)' }}>
+                      style={{ background: tab === t ? INK : 'transparent', color: tab === t ? '#FAF9F7' : 'rgba(17,17,17,.62)' }}>
                 {t === 'reviews' ? `Reviews (${p.ratings.length})` : `Activity (${p.deals.length})`}
               </button>
             ))}

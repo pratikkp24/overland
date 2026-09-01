@@ -725,9 +725,9 @@ html, body {
 .ov-ticker-code {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 11px; letter-spacing: .06em;
-  color: rgba(255,255,255,.55);
+  color: rgba(255,255,255,0.6);
 }
-.ov-ticker-arrow { color: rgba(255,255,255,.28); margin: 0 .3rem; }
+.ov-ticker-arrow { color: rgba(255,255,255,0.6); margin: 0 .3rem; }
 .ov-ticker-rate {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 13px; color: #FBFAF8; font-variant-numeric: tabular-nums;

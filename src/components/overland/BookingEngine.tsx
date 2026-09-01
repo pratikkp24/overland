@@ -92,10 +92,12 @@ export default function BookingEngine() {
                     className="w-full rounded-[9px] p-5 text-left transition-colors duration-200"
                     style={{ background: on ? '#FFFFFF' : 'transparent', boxShadow: on ? '0 1px 0 rgba(17,17,17,.06)' : 'none' }}
                   >
-                    <span className="aon-eyebrow" style={{ color: on ? ACCENT : 'rgba(17,17,17,.35)' }}>
+                    <span className="aon-eyebrow" style={{ color: on ? ACCENT : 'rgba(17,17,17,.62)' }}>
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="aon-display mt-2 text-[19px]" style={{ opacity: on ? 1 : 0.45 }}>
+                    {/* Inactive steps read as faded by design, but 0.45 put this
+                        heading at 2.99:1. 0.62 keeps the distinction and clears AA. */}
+                    <h3 className="aon-display mt-2 text-[19px]" style={{ opacity: on ? 1 : 0.62 }}>
                       {title}
                     </h3>
                     {on && <p className="aon-body mt-2 text-[13px] leading-[1.6]">{body}</p>}

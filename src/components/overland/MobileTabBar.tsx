@@ -122,7 +122,7 @@ export default function MobileTabBar({ onPost }: { onPost?: () => void } = {}) {
                 <t.Icon active={on} />
                 <span
                   className="text-[10px]"
-                  style={{ fontFamily: 'Poppins, sans-serif', fontWeight: on ? 600 : 400, color: on ? INK : 'rgba(17,17,17,.5)' }}
+                  style={{ fontFamily: 'Poppins, sans-serif', fontWeight: on ? 600 : 400, color: on ? INK : 'rgba(17,17,17,.62)' }}
                 >
                   {t.label}
                 </span>

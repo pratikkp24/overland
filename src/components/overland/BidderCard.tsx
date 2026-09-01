@@ -59,7 +59,7 @@ export default function BidderCard({ info, onOpenProfile, onReport }: { info: Bi
     return (
       <div className="mt-2 rounded-[9px] px-3 py-2.5 text-center"
            style={{ background: 'rgba(30,77,107,.05)', border: `1px dashed rgba(30,77,107,.22)` }}>
-        <p className="text-[12px]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,.6)' }}>
+        <p className="text-[12px]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,0.62)' }}>
           Carrier name, MC/USDOT and safety record are visible to members.
         </p>
         <button

@@ -9,6 +9,10 @@ import { applySeo, laneTitle, laneDescription, laneAnswers, laneJsonLd, laneSlug
 import { money, rpmFmt, type Lane } from '@/lib/market';
 import { laneMiles } from '@/lib/usmap';
 import BidderCard, { BidderDisclaimer } from './BidderCard';
+import { sanitizeAmount, toAmount } from '@/lib/money';
+
+/** Matches bids_note_len in 0002_harden.sql. */
+const NOTE_MAX = 500;
 import ReportModal from './ReportModal';
 
 
@@ -235,8 +239,10 @@ export default function LaneDetail({ lane, onClose }: { lane: Lane; onClose: () 
 
   const submitCounter = (e: React.FormEvent) => {
     e.preventDefault();
-    const n = Number(amount.replace(/[^\d]/g, ''));
-    if (!n) return;
+    /* Was Number(amount.replace(/[^\d]/g, '')), which deleted the decimal point
+       and not the decimals: the field showed 2400.50 while 240050 was recorded. */
+    const n = toAmount(amount);
+    if (!n || n <= 0) return;
     setOffers((prev) => [
       ...prev,
       { id: `c${Date.now()}`, from: 'you', amount: n, note: note.trim() || undefined, at: Date.now(), kind: 'counter' },
@@ -345,7 +351,7 @@ export default function LaneDetail({ lane, onClose }: { lane: Lane; onClose: () 
                           {!mine && (
                             <Bidder name={o.from} onOpen={() => { const pid = profileIdFor(o.from); if (pid) setViewing(pid); }} onReport={() => setReporting({ type: 'bid', id: o.id })} />
                           )}
-                          {o.note && <p className="mt-1 text-[13px]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,.65)' }}>{o.note}</p>}
+                          {o.note && <p className="mt-1 break-words text-[13px]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,.65)' }}>{o.note}</p>}
                           <div className="mt-1 flex items-center justify-between">
                             <span className="aon-eyebrow" style={{ color: 'rgba(17,17,17,.65)' }}>{ago(o.at)}</span>
                             {/* Accepting is what unlocks contact details, so it cannot be
@@ -374,12 +380,13 @@ export default function LaneDetail({ lane, onClose }: { lane: Lane; onClose: () 
                     <div className="mt-2 flex gap-2">
                       <input
                         id="ov-amt" inputMode="numeric" value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
+                        onChange={(e) => setAmount(sanitizeAmount(e.target.value))}
                         className="aon-num w-[140px] rounded-[10px] px-3 py-2 text-[15px] outline-none"
                         style={{ background: '#FAF9F7', border: `1px solid ${HAIR}` }}
                       />
                       <input
-                        value={note} onChange={(e) => setNote(e.target.value)}
+                        value={note} maxLength={NOTE_MAX}
+                        onChange={(e) => setNote(e.target.value.slice(0, NOTE_MAX))}
                         placeholder="Optional note — dates, tarps, detention…"
                         className="flex-1 rounded-[10px] px-3 py-2 text-[14px] outline-none"
                         style={{ fontFamily: 'Poppins, sans-serif', background: '#FAF9F7', border: `1px solid ${HAIR}` }}

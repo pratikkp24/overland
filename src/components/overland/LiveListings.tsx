@@ -64,7 +64,7 @@ export default function LiveListings() {
 
   const chip = (on: boolean) => ({
     background: on ? INK : 'transparent',
-    color: on ? '#FAF9F7' : 'rgba(17,17,17,.55)',
+    color: on ? '#FAF9F7' : 'rgba(17,17,17,.62)',
     border: `1px solid ${on ? INK : HAIR}`,
   });
 
@@ -145,7 +145,7 @@ export default function LiveListings() {
                       {r.ready_date ? ` · ready ${r.ready_date}` : ''}
                       {r.target_rate ? ` · asking ${money(r.target_rate)}` : ' · open to bids'}
                     </p>
-                    {r.notes && <p className="aon-body mt-1.5 text-[13px]">{r.notes}</p>}
+                    {r.notes && <p className="aon-body mt-1.5 break-words text-[13px]">{r.notes}</p>}
                   </div>
 
                   <div className="text-right">
@@ -253,7 +253,7 @@ function OffersList({ row }: { row: Row }) {
               )}
 
               {b.note && (
-                <p className="mt-1 text-[13px]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,.65)' }}>
+                <p className="mt-1 break-words text-[13px]" style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(17,17,17,.65)' }}>
                   {b.note}
                 </p>
               )}
