@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/auth/AuthContext';
+import { sanitizeAmount, toAmount, amountError } from '@/lib/money';
+
+/** Matches bids_notes_len in 0002_harden.sql. */
+const NOTE_MAX = 500;
 import { fetchListings, fetchBids, placeBid, getPublicProfiles, isLive, type Listing, type Bid, type PublicProfile } from '@/lib/db';
 import BidderCard, { BidderDisclaimer } from './BidderCard';
 import { money } from '@/lib/market';
@@ -289,11 +293,13 @@ function BidSheet({ row, onClose, onDone }: { row: Row; onClose: () => void; onD
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) { onClose(); openAuth('carrier'); return; }
-    const n = Number(amount);
+    const problem = amountError(amount, 'bid');
+    if (problem) { setErr(problem); return; }
+    const n = toAmount(amount);
     if (!n || n <= 0) { setErr('Enter an amount.'); return; }
     setBusy(true); setErr(null);
     try {
-      await placeBid(row.id, user.id, Math.round(n), note.trim() || undefined);
+      await placeBid(row.id, user.id, n, note.trim() || undefined);
       onDone();
     } catch (e2) {
       const msg = e2 instanceof Error ? e2.message : 'Could not place the bid.';
@@ -326,7 +332,7 @@ function BidSheet({ row, onClose, onDone }: { row: Row; onClose: () => void; onD
         <form onSubmit={submit} className="mt-5">
           <label className="aon-eyebrow block" htmlFor="ov-bid">Your bid</label>
           <input id="ov-bid" inputMode="numeric" value={amount}
-                 onChange={(e) => setAmount(e.target.value.replace(/[^\d]/g, ''))}
+                 onChange={(e) => setAmount(sanitizeAmount(e.target.value))}
                  className="aon-num mt-2 w-full rounded-[9px] px-4 py-3 text-[17px] outline-none"
                  style={{ background: 'rgba(17,17,17,.04)', border: `1px solid ${HAIR}` }} />
           {rpm > 0 && (
@@ -336,7 +342,8 @@ function BidSheet({ row, onClose, onDone }: { row: Row; onClose: () => void; onD
           )}
 
           <label className="aon-eyebrow mt-4 block" htmlFor="ov-bidnote">Note</label>
-          <input id="ov-bidnote" value={note} onChange={(e) => setNote(e.target.value)}
+          <input id="ov-bidnote" value={note} maxLength={NOTE_MAX}
+                 onChange={(e) => setNote(e.target.value.slice(0, NOTE_MAX))}
                  placeholder="Dates, equipment, anything they should know"
                  className="mt-2 w-full rounded-[9px] px-4 py-3 text-[14px] outline-none"
                  style={{ fontFamily: 'Poppins, sans-serif', background: 'rgba(17,17,17,.04)', border: `1px solid ${HAIR}` }} />

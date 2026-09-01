@@ -1,3 +1,4 @@
+import { sanitizeAmount, toAmount, amountError, MAX_AMOUNT } from '@/lib/money';
 import React, { useMemo, useState } from 'react';
 import { useAuth } from '@/auth/AuthContext';
 import { CITIES, laneMiles } from '@/lib/usmap';
@@ -28,6 +29,8 @@ const EQUIPMENT = [
   'Power only', 'Hotshot', 'Box truck', 'Sprinter van', 'Tanker',
   'Car hauler', 'Lowboy / RGN', 'Dump', 'Intermodal container',
 ];
+/** Matches listings_notes_len in 0002_harden.sql. */
+const NOTES_MAX = 500;
 const OTHER = '__other__';
 const LOCAL_KEY = 'overland.mylistings.v1';
 
@@ -61,7 +64,8 @@ export default function PostListing({ onClose, onPosted }: { onClose: () => void
     setErr(null);
     if (!from || !to) return setErr('Pick an origin and a destination.');
     if (from === to) return setErr('Origin and destination cannot be the same.');
-    if (rate && Number(rate) <= 0) return setErr('Rate must be a positive number.');
+    const rateProblem = amountError(rate, 'rate');
+    if (rateProblem) return setErr(rateProblem);
     if (equipment === OTHER && !customEquip.trim()) return setErr('Name the equipment you need.');
 
     setBusy(true);
@@ -72,7 +76,7 @@ export default function PostListing({ onClose, onPosted }: { onClose: () => void
       miles,
       equipment: equipment === OTHER ? customEquip.trim() : equipment,
       ready_date: ready || null,
-      target_rate: rate ? Math.round(Number(rate)) : null,
+      target_rate: rate ? toAmount(rate) : null,
       notes: notes.trim() || null,
     };
 
@@ -96,6 +100,8 @@ export default function PostListing({ onClose, onPosted }: { onClose: () => void
       const msg = e instanceof Error ? e.message : 'Could not post. Try again.';
       if (msg.includes('P0001') || msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('limit')) {
         setErr('Hourly rate limit reached (maximum 20 listings per hour).');
+      } else if (msg.includes('target_rate') || msg.includes('listings_target_rate')) {
+        setErr(`The target rate must be between $1 and $${MAX_AMOUNT.toLocaleString('en-US')}.`);
       } else if (msg.toLowerCase().includes('notes')) {
         setErr('Notes must be under 500 characters.');
       } else {
@@ -202,7 +208,7 @@ export default function PostListing({ onClose, onPosted }: { onClose: () => void
                   {kind === 'load' ? 'Target rate (optional)' : 'Asking rate (optional)'}
                 </label>
                 <input id="ov-rate" inputMode="numeric" value={rate}
-                       onChange={(e) => setRate(e.target.value.replace(/[^\d]/g, ''))}
+                       onChange={(e) => setRate(sanitizeAmount(e.target.value))}
                        className={field} style={sty} placeholder={miles ? String(Math.round(miles * 2.2)) : '2400'} />
                 {!rate && (
                   <p className="aon-body mt-1 text-[12px]">
@@ -211,7 +217,8 @@ export default function PostListing({ onClose, onPosted }: { onClose: () => void
                 )}
 
                 <label className="aon-eyebrow mt-4 block" htmlFor="ov-notes">Notes</label>
-                <input id="ov-notes" value={notes} onChange={(e) => setNotes(e.target.value)}
+                <input id="ov-notes" value={notes} maxLength={NOTES_MAX}
+                       onChange={(e) => setNotes(e.target.value.slice(0, NOTES_MAX))}
                        className={field} style={sty} placeholder="Tarps, appointment times, weight…" />
 
                 {err && <p className="mt-4 text-[13px]" role="alert"
