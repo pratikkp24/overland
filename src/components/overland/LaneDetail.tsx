@@ -343,7 +343,7 @@ export default function LaneDetail({ lane, onClose }: { lane: Lane; onClose: () 
                             {/* The amount is public; the name is not. Masking here as well as
                                 in BidderCard means the identity is gated in one consistent
                                 place rather than half-leaking through the row header. */}
-                            <span className="text-[14px]" style={{ fontFamily: 'Poppins, sans-serif', color: user || mine ? INK : 'rgba(17,17,17,.45)' }}>
+                            <span className="text-[14px]" style={{ fontFamily: 'Poppins, sans-serif', color: user || mine ? INK : 'rgba(17,17,17,.62)' }}>
                               {mine ? 'Your counter' : user ? o.from : 'A carrier on the board'}
                             </span>
                             <span className="aon-num text-[15px]" style={{ color: mine ? ACCENT : INK }}>{money(o.amount)}</span>

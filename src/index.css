@@ -793,3 +793,11 @@ html, body {
 @supports (height: 100lvh) {
   .ov-story-stage { height: 100lvh; }
 }
+
+/* Touch targets. The pill CTA renders at 31px tall, which is fine under a mouse
+   and awkward with a thumb — this product's primary user is holding the phone in
+   a cab. Scoped to coarse pointers so the desktop proportions are untouched.
+   44px is the WCAG 2.5.5 / platform-guideline floor. */
+@media (pointer: coarse) {
+  .aon-cta { min-height: 44px; padding-top: 11px; padding-bottom: 11px; }
+}

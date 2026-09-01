@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "verify:shipped": "./scripts/verify-shipped.sh"
+    "verify:shipped": "./scripts/verify-shipped.sh",
+    "audit:a11y": "node scripts/a11y-audit.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
